@@ -8,6 +8,7 @@ class DateException extends ValidationException
 {
 
     public const DATE_FORMAT = 'Y-m-d';
+
     public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
 
     public static function emptyDate(string $field, ?string $value = null): self
