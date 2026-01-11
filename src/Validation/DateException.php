@@ -1,0 +1,58 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Vigihdev\Exceptions\Validation;
+
+class DateException extends ValidationException
+{
+
+    public const DATE_FORMAT = 'Y-m-d';
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+
+    public static function emptyDate(string $field, ?string $value = null): self
+    {
+        $value = $value ?? '';
+        return new self(
+            message: sprintf("Date for field '%s' is empty. Value: '%s'", $field, $value),
+            code: 400,
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            solutions: [
+                "Provide a valid date for field '%s'.",
+            ],
+        );
+    }
+
+    public static function invalidDate(string $field, string $value): self
+    {
+        return new self(
+            message: sprintf("Date '%s' is not a valid date for field '%s'.", $value, $field),
+            code: 400,
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            solutions: [
+                "Check the date format. It should be 'Y-m-d' or 'Y-m-d H:i:s'.",
+            ],
+        );
+    }
+
+    public static function invalidDateTime(string $field, string $value): self
+    {
+        return new self(
+            message: sprintf("Date '%s' is not a valid date time for field '%s'.", $value, $field),
+            code: 400,
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            solutions: [
+                "Check the date time format. It should be 'Y-m-d H:i:s'.",
+            ],
+        );
+    }
+}
