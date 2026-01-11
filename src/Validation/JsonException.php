@@ -7,10 +7,28 @@ namespace Vigihdev\Exceptions\Validation;
 class JsonException extends ValidationException
 {
 
-    public static function invalidJson(string $field, string $value): self
+    public static function emptyValue(string $field): static
     {
         return new self(
-            message: sprintf("JSON '%s' is not a valid JSON for field '%s'.", $value, $field),
+            message: sprintf("'%s' cannot be blank.", $field),
+            code: 400,
+            field: $field,
+            value: null,
+            context: [
+                'field' => $field,
+                'value' => null,
+            ],
+            solutions: [
+                sprintf("Provide a valid JSON string for field '%s'.", $field),
+                "Example value: {\"key\": \"value\"}",
+            ],
+        );
+    }
+
+    public static function invalidJson(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("'%s' is not a valid JSON for field '%s'.", $value, $field),
             code: 400,
             field: $field,
             value: $value,
@@ -20,6 +38,7 @@ class JsonException extends ValidationException
             ],
             solutions: [
                 "Check the JSON format. It should be valid JSON.",
+                "Verify the JSON string against a JSON schema if available.",
             ],
         );
     }

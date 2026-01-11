@@ -22,12 +22,12 @@ class NumberExceptionTest extends TestCase
         $this->assertEquals([
             'min' => 10,
             'actual' => 5,
-            'attribute' => 'age',
+            'field' => 'age',
         ], $exception->getContext());
         $this->assertContains('Increase the number to at least 10', $exception->getSolutions());
     }
 
-    public function test_invalid_too_small_without_attribute(): void
+    public function test_invalid_too_small_without_field(): void
     {
         $exception = NumberException::invalidTooSmall(100, 50);
 
@@ -37,7 +37,7 @@ class NumberExceptionTest extends TestCase
         $this->assertEquals([
             'min' => 100,
             'actual' => 50,
-            'attribute' => '',
+            'field' => '',
         ], $exception->getContext());
     }
 
@@ -52,7 +52,7 @@ class NumberExceptionTest extends TestCase
         $this->assertEquals([
             'max' => 100,
             'actual' => 200,
-            'attribute' => 'score',
+            'field' => 'score',
             'value' => 200
         ], $exception->getContext());
         $this->assertContains('Decrease the number to at most 100', $exception->getSolutions());
@@ -63,7 +63,7 @@ class NumberExceptionTest extends TestCase
         $exception = NumberException::invalidTooSmall(50, 25, 'count');
 
         $array = $exception->toArray();
-        
+
         $this->assertIsArray($array);
         $this->assertStringContainsString('count', $array['message']);
         $this->assertEquals(400, $array['code']);
@@ -72,7 +72,7 @@ class NumberExceptionTest extends TestCase
         $this->assertEquals([
             'min' => 50,
             'actual' => 25,
-            'attribute' => 'count',
+            'field' => 'count',
         ], $array['context']);
         $this->assertContains('Increase the number to at least 50', $array['solutions']);
         $this->assertEquals(NumberException::class, $array['exception']);
@@ -83,14 +83,14 @@ class NumberExceptionTest extends TestCase
         $exception = NumberException::invalidTooBig(1000, 1500, 'amount');
 
         $array = $exception->toArray();
-        
+
         $this->assertIsArray($array);
         $this->assertStringContainsString('amount', $array['message']);
         $this->assertEquals(400, $array['code']);
         $this->assertEquals([
             'max' => 1000,
             'actual' => 1500,
-            'attribute' => 'amount',
+            'field' => 'amount',
             'value' => 1500
         ], $array['context']);
         $this->assertContains('Decrease the number to at most 1000', $array['solutions']);

@@ -52,12 +52,12 @@ class FileExceptionTest extends TestCase
         $this->assertEquals([
             'min' => 1024,
             'actual' => 512,
-            'attribute' => 'avatar',
+            'field' => 'avatar',
         ], $exception->getContext());
         $this->assertContains('Increase the file size to at least 1024 bytes', $exception->getSolutions());
     }
 
-    public function test_invalid_too_small_without_attribute(): void
+    public function test_invalid_too_small_without_field(): void
     {
         $exception = FileException::invalidTooSmall(2048, 1024);
 
@@ -67,7 +67,7 @@ class FileExceptionTest extends TestCase
         $this->assertEquals([
             'min' => 2048,
             'actual' => 1024,
-            'attribute' => '',
+            'field' => '',
         ], $exception->getContext());
     }
 
@@ -82,7 +82,7 @@ class FileExceptionTest extends TestCase
         $this->assertEquals([
             'max' => 512000,
             'actual' => 1024000,
-            'attribute' => 'document',
+            'field' => 'document',
         ], $exception->getContext());
         $this->assertContains('Reduce the file size to at most 512000 bytes', $exception->getSolutions());
     }
@@ -92,7 +92,7 @@ class FileExceptionTest extends TestCase
         $exception = FileException::invalidMimeType('document.pdf', 'image/jpeg');
 
         $array = $exception->toArray();
-        
+
         $this->assertIsArray($array);
         $this->assertStringContainsString('document.pdf', $array['message']);
         $this->assertEquals(400, $array['code']);
@@ -111,14 +111,14 @@ class FileExceptionTest extends TestCase
         $exception = FileException::invalidTooBig(512000, 1024000, 'document');
 
         $array = $exception->toArray();
-        
+
         $this->assertIsArray($array);
         $this->assertStringContainsString('document', $array['message']);
         $this->assertEquals(400, $array['code']);
         $this->assertEquals([
             'max' => 512000,
             'actual' => 1024000,
-            'attribute' => 'document',
+            'field' => 'document',
         ], $array['context']);
         $this->assertContains('Reduce the file size to at most 512000 bytes', $array['solutions']);
         $this->assertEquals(FileException::class, $array['exception']);

@@ -4,11 +4,12 @@
 .git
 .vscode
 .marscode
-.lingma
+.comate
 .phpunit.*cache
 GEMINI.md
 composer.lock
 vendor
+source
 local-dev
 scripts
 coverage
