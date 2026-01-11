@@ -29,6 +29,12 @@
             "Vigihdev\\Exceptions\\Tests\\": "tests/"
         }
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://satis.id"
+        }
+    ],
     "config": {
         "process-timeout": 0
     },
