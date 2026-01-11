@@ -20,12 +20,14 @@ class NumberException extends ValidationException
                 $name,
                 $min
             ),
+            code: 400,
+            field: $attribute,
+            value: $actual,
             context: [
                 'min' => $min,
                 'actual' => $actual,
                 'attribute' => $attribute,
             ],
-            code: 400,
             solutions: [
                 'Increase the number to at least ' . $min,
             ],
@@ -44,13 +46,15 @@ class NumberException extends ValidationException
                 $attribute,
                 $max
             ),
+            code: 400,
+            field: $attribute,
+            value: $actual,
             context: [
                 'max' => $max,
                 'actual' => $actual,
                 'attribute' => $attribute,
                 'value' => $actual
             ],
-            code: 400,
             solutions: [
                 'Decrease the number to at most ' . $max
             ],

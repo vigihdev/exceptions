@@ -12,6 +12,8 @@ class EmailException extends ValidationException
         return new self(
             message: sprintf("Email '%s' is not a valid email for field '%s'.", $value, $field),
             code: 400,
+            field: $field,
+            value: $value,
             context: [
                 'field' => $field,
                 'value' => $value,

@@ -12,6 +12,8 @@ class JsonException extends ValidationException
         return new self(
             message: sprintf("JSON '%s' is not a valid JSON for field '%s'.", $value, $field),
             code: 400,
+            field: $field,
+            value: $value,
             context: [
                 'field' => $field,
                 'value' => $value,

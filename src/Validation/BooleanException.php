@@ -18,6 +18,8 @@ class BooleanException extends ValidationException
                 $field
             ),
             code: 400,
+            field: $field,
+            value: $value,
             context: [
                 'field' => $field,
                 'value' => $value,
@@ -36,6 +38,7 @@ class BooleanException extends ValidationException
         return new self(
             message: sprintf("Boolean field '%s' cannot be empty.", $field),
             code: 400,
+            field: $field,
             context: ['field' => $field],
             solutions: [
                 "Provide a boolean value for field '$field'",

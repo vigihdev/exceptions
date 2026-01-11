@@ -14,12 +14,6 @@ interface ValidationExceptionInterface
 
     public function getValue(): mixed;
 
-    public function getMessage(): string;
-
-    public function getCode(): int;
-
-    public function getPrevious(): ?\Throwable;
-
     public function toArray(): array;
 
     public function getFormattedMessage(): string;

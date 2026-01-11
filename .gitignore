@@ -5,7 +5,7 @@
 .vscode
 .marscode
 .lingma
-.phpunit.cache
+.phpunit.*cache
 GEMINI.md
 composer.lock
 vendor

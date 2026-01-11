@@ -13,13 +13,15 @@ final class StringException extends ValidationException
     {
         return new self(
             message: sprintf('String %s is too short. Minimum length is %d characters', $attribute, $min),
+            field: $attribute,
+            value: $actual,
+            code: 400,
             context: [
                 'min' => $min,
                 'actual' => strlen($actual),
                 'attribute' => $attribute,
                 'value' => $actual
             ],
-            code: 400,
             solutions: ['Extend the string to at least ' . $min . ' characters'],
         );
     }
@@ -31,12 +33,13 @@ final class StringException extends ValidationException
     {
         return new self(
             message: sprintf('String is too long. Maximum length is %d characters', $max),
+            value: $actual,
+            code: 400,
             context: [
                 'max' => $max,
                 'actual' => strlen($actual),
                 'value' => $actual
             ],
-            code: 400,
             solutions: ['Shorten the string to maximum ' . $max . ' characters'],
         );
     }
@@ -47,12 +50,13 @@ final class StringException extends ValidationException
     public static function notEqual(string $expected, string $actual): self
     {
         return new self(
-            message: sprintf('String does not match the expected value. Expected: %s', $expected),
+            message: sprintf('String does not match the expected value. Expected: %s, Actual: %s', $expected, $actual),
+            value: $actual,
+            code: 400,
             context: [
                 'expected' => $expected,
                 'actual' => $actual
             ],
-            code: 400,
             solutions: [
                 'Ensure the string matches the expected format: ' . $expected,
                 'Check for differences in case sensitivity or whitespace'
@@ -66,12 +70,13 @@ final class StringException extends ValidationException
     public static function notMatch(string $pattern, string $actual): self
     {
         return new self(
-            message: sprintf('String does not match the expected pattern. Expected: %s', $pattern),
+            message: sprintf('String does not match the expected pattern. Expected: %s, Actual: %s', $pattern, $actual),
+            value: $actual,
+            code: 400,
             context: [
                 'pattern' => $pattern,
                 'actual' => $actual
             ],
-            code: 400,
             solutions: [
                 'Ensure the string matches the pattern: ' . $pattern,
                 'Check the string format'
@@ -159,12 +164,13 @@ final class StringException extends ValidationException
     {
         $allowedStr = implode(', ', $allowed);
         return new self(
-            message: sprintf('String is not in the allowed list. Allowed: %s', $allowedStr),
+            message: sprintf('String is not in the allowed list. Allowed: %s, Actual: %s', $allowedStr, $actual),
+            value: $actual,
+            code: 400,
             context: [
                 'allowed' => $allowed,
                 'actual' => $actual
             ],
-            code: 400,
             solutions: [
                 'Use one of the following values: ' . $allowedStr,
                 'Check if the value matches the allowed list'

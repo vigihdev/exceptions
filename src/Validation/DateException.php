@@ -17,6 +17,8 @@ class DateException extends ValidationException
         return new self(
             message: sprintf("Date for field '%s' is empty. Value: '%s'", $field, $value),
             code: 400,
+            field: $field,
+            value: $value,
             context: [
                 'field' => $field,
                 'value' => $value,
@@ -32,6 +34,8 @@ class DateException extends ValidationException
         return new self(
             message: sprintf("Date '%s' is not a valid date for field '%s'.", $value, $field),
             code: 400,
+            field: $field,
+            value: $value,
             context: [
                 'field' => $field,
                 'value' => $value,
@@ -47,6 +51,8 @@ class DateException extends ValidationException
         return new self(
             message: sprintf("Date '%s' is not a valid date time for field '%s'.", $value, $field),
             code: 400,
+            field: $field,
+            value: $value,
             context: [
                 'field' => $field,
                 'value' => $value,
