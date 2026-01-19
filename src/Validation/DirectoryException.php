@@ -7,13 +7,29 @@ namespace Vigihdev\Exceptions\Validation;
 class DirectoryException extends ValidationException
 {
 
-
-    public static function notFound(string $dirpath): self
+    public static function emptyValue(string $field, ?string $value = null): self
     {
         return new self(
-            message: sprintf("Direktori not found: %s", $dirpath),
+            message: sprintf("%s is empty: %s", $field, $value),
             context: [
-                'dirpath' => $dirpath,
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 403,
+            solutions: [
+                sprintf("Check the %s value and make sure it is not empty", $field),
+                'Check the directory path and make sure it is not empty',
+            ]
+        );
+    }
+
+    public static function notFound(string $field, string $value): self
+    {
+        return new self(
+            message: sprintf("%s not found: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
             ],
             code: 404,
             solutions: [
@@ -23,42 +39,45 @@ class DirectoryException extends ValidationException
         );
     }
 
-    public static function notReadable(string $dirpath): self
+    public static function notReadable(string $field, string $value): self
     {
         return new self(
-            message: sprintf("Direktori not readable: %s", $dirpath),
+            message: sprintf("%s not readable: %s", $field, $value),
             context: [
-                'dirpath' => $dirpath,
+                'field' => $field,
+                'value' => $value,
             ],
             code: 403,
             solutions: [
-                'Check the directory permissions: chmod +r ' . basename($dirpath),
-                'Check the directory ownership'
+                sprintf("Check the %s permissions: chmod +r %s", $field, basename($value)),
+                sprintf("Check the %s ownership", $field),
             ]
         );
     }
 
-    public static function notWritable(string $dirpath): self
+    public static function notWritable(string $field, string $value): self
     {
         return new self(
-            message: sprintf("Direktori not writable: %s", $dirpath),
+            message: sprintf("%s not writable: %s", $field, $value),
             context: [
-                'dirpath' => $dirpath,
+                'field' => $field,
+                'value' => $value,
             ],
             code: 403,
             solutions: [
-                'Check the directory permissions: chmod +w ' . basename($dirpath),
-                'Check the directory ownership'
+                sprintf("Check the %s permissions: chmod +w %s", $field, basename($value)),
+                sprintf("Check the %s ownership", $field),
             ]
         );
     }
 
-    public static function alreadyExists(string $dirpath): self
+    public static function alreadyExists(string $field, string $value): self
     {
         return new self(
-            message: sprintf("Direktori already exists: %s", $dirpath),
+            message: sprintf("%s already exists: %s", $field, $value),
             context: [
-                'dirpath' => $dirpath,
+                'field' => $field,
+                'value' => $value,
             ],
             code: 409,
             solutions: [
@@ -69,9 +88,9 @@ class DirectoryException extends ValidationException
         );
     }
 
-    public static function notEmpty(string $dirpath, int $fileCount = 0): self
+    public static function notEmpty(string $field, string $value, int $fileCount = 0): self
     {
-        $message = sprintf("Direktori not empty: %s", $dirpath);
+        $message = sprintf("%s not empty: %s", $field, $value);
         if ($fileCount > 0) {
             $message .= sprintf(" (%d file/folder)", $fileCount);
         }
@@ -79,7 +98,8 @@ class DirectoryException extends ValidationException
         return new self(
             message: $message,
             context: [
-                'dirpath' => $dirpath,
+                'field' => $field,
+                'value' => $value,
                 'file_count' => $fileCount,
             ],
             code: 409,
@@ -90,9 +110,9 @@ class DirectoryException extends ValidationException
         );
     }
 
-    public static function createFailed(string $dirpath, string $error = ''): self
+    public static function createFailed(string $field, string $value, string $error = ''): self
     {
-        $message = sprintf("Failed to create directory: %s", $dirpath);
+        $message = sprintf("Failed to create %s: %s", $field, $value);
         if ($error) {
             $message .= ". Error: " . $error;
         }
@@ -100,7 +120,8 @@ class DirectoryException extends ValidationException
         return new self(
             message: $message,
             context: [
-                'dirpath' => $dirpath,
+                'field' => $field,
+                'value' => $value,
                 'error' => $error,
             ],
             code: 409,
@@ -112,9 +133,9 @@ class DirectoryException extends ValidationException
         );
     }
 
-    public static function deleteFailed(string $dirpath, string $error = ''): self
+    public static function deleteFailed(string $field, string $value, string $error = ''): self
     {
-        $message = sprintf("Failed to delete directory: %s", $dirpath);
+        $message = sprintf("Failed to delete %s: %s", $field, $value);
         if ($error) {
             $message .= ". Error: " . $error;
         }
@@ -122,7 +143,8 @@ class DirectoryException extends ValidationException
         return new self(
             message: $message,
             context: [
-                'dirpath' => $dirpath,
+                'field' => $field,
+                'value' => $value,
                 'error' => $error,
             ],
             code: 409,
@@ -134,9 +156,9 @@ class DirectoryException extends ValidationException
         );
     }
 
-    public static function invalidPath(string $dirpath, string $reason = ''): self
+    public static function invalidPath(string $field, string $value, string $reason = ''): self
     {
-        $message = sprintf("Invalid directory path: %s", $dirpath);
+        $message = sprintf("Invalid %s path: %s", $field, $value);
         if ($reason) {
             $message .= ". " . $reason;
         }
@@ -144,7 +166,8 @@ class DirectoryException extends ValidationException
         return new self(
             message: $message,
             context: [
-                'dirpath' => $dirpath,
+                'field' => $field,
+                'value' => $value,
                 'reason' => $reason,
             ],
             code: 400,
@@ -156,15 +179,14 @@ class DirectoryException extends ValidationException
         );
     }
 
-    public static function cannotScan(string $dirpath): self
+    public static function cannotScan(string $field, string $value): self
     {
         return new self(
-            message: sprintf("Cannot scan directory %s.", basename($dirpath)),
+            message: sprintf("Cannot scan %s %s.", $field, $value),
             code: 403,
             context: [
-                'path' => $dirpath,
-                'basename' => basename($dirpath),
-                'dirname' => dirname($dirpath),
+                'field' => $field,
+                'value' => $value,
             ],
             solutions: [
                 "Check if the directory exists and is readable",
@@ -175,15 +197,14 @@ class DirectoryException extends ValidationException
         );
     }
 
-    public static function cannotCreate(string $dirpath): self
+    public static function cannotCreate(string $field, string $value): self
     {
         return new self(
-            message: sprintf("Cannot create directory %s.", basename($dirpath)),
+            message: sprintf("Cannot create %s %s.", $field, $value),
             code: 403,
             context: [
-                'path' => $dirpath,
-                'basename' => basename($dirpath),
-                'dirname' => dirname($dirpath),
+                'field' => $field,
+                'value' => $value,
             ],
             solutions: [
                 "Check if the parent directory exists and is writable",
