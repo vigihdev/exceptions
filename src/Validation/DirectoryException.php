@@ -27,7 +27,7 @@ class DirectoryException extends ValidationException
     public static function exist(string $field, string $value): self
     {
         return new self(
-            message: sprintf("%s already exists: %s", $field, $value),
+            message: sprintf("Directory %s already exists for field %s", $value, $field),
             context: [
                 'field' => $field,
                 'value' => $value,
@@ -35,7 +35,6 @@ class DirectoryException extends ValidationException
             code: 409,
             solutions: [
                 sprintf("Check the %s value and make sure it is not already in use", $field),
-                'Check the directory path and make sure it is not already in use',
             ]
         );
     }
@@ -43,7 +42,7 @@ class DirectoryException extends ValidationException
     public static function notExist(string $field, string $value): self
     {
         return new self(
-            message: sprintf("%s does not exist: %s", $field, $value),
+            message: sprintf("Directory %s does not exist for field %s", $value, $field),
             context: [
                 'field' => $field,
                 'value' => $value,
@@ -51,7 +50,6 @@ class DirectoryException extends ValidationException
             code: 409,
             solutions: [
                 sprintf("Check the %s value and make sure it is not already in use", $field),
-                'Check the directory path and make sure it is not already in use',
             ]
         );
     }
@@ -59,7 +57,7 @@ class DirectoryException extends ValidationException
     public static function notFound(string $field, string $value): self
     {
         return new self(
-            message: sprintf("%s not found: %s", $field, $value),
+            message: sprintf("Directory %s not found for field %s", $value, $field),
             context: [
                 'field' => $field,
                 'value' => $value,
@@ -75,7 +73,7 @@ class DirectoryException extends ValidationException
     public static function notReadable(string $field, string $value): self
     {
         return new self(
-            message: sprintf("%s not readable: %s", $field, $value),
+            message: sprintf("Directory %s not readable for field %s", $value, $field),
             context: [
                 'field' => $field,
                 'value' => $value,
