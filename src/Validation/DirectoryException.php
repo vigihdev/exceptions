@@ -7,6 +7,7 @@ namespace Vigihdev\Exceptions\Validation;
 class DirectoryException extends ValidationException
 {
 
+
     public static function emptyValue(string $field, ?string $value = null): self
     {
         return new self(
@@ -19,6 +20,38 @@ class DirectoryException extends ValidationException
             solutions: [
                 sprintf("Check the %s value and make sure it is not empty", $field),
                 'Check the directory path and make sure it is not empty',
+            ]
+        );
+    }
+
+    public static function exist(string $field, string $value): self
+    {
+        return new self(
+            message: sprintf("%s already exists: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 409,
+            solutions: [
+                sprintf("Check the %s value and make sure it is not already in use", $field),
+                'Check the directory path and make sure it is not already in use',
+            ]
+        );
+    }
+
+    public static function notExist(string $field, string $value): self
+    {
+        return new self(
+            message: sprintf("%s does not exist: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 409,
+            solutions: [
+                sprintf("Check the %s value and make sure it is not already in use", $field),
+                'Check the directory path and make sure it is not already in use',
             ]
         );
     }
