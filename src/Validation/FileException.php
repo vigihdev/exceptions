@@ -7,6 +7,54 @@ namespace Vigihdev\Exceptions\Validation;
 class FileException extends ValidationException
 {
 
+    public static function notExist(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("File %s does not exist: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 404,
+            solutions: [
+                'Check the filepath and make sure the file exists',
+                'Create the file if it does not exist'
+            ]
+        );
+    }
+
+    public static function exist(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("File %s already exists: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 409,
+            solutions: [
+                'Check the filepath and make sure the file does not exist',
+                'Rename the file if it exists'
+            ]
+        );
+    }
+
+    public static function notFound(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("File %s not found: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 404,
+            solutions: [
+                'Check the filepath and make sure the file exists',
+                'Create the file if it does not exist'
+            ]
+        );
+    }
+
     public static function invalidMimeType(string $field, string $value, string $mimeType): static
     {
         return new self(
