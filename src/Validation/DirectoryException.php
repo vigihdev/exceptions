@@ -89,7 +89,7 @@ class DirectoryException extends ValidationException
     public static function notWritable(string $field, string $value): self
     {
         return new self(
-            message: sprintf("%s not writable: %s", $field, $value),
+            message: sprintf("Directory %s not writable for field %s", $value, $field),
             context: [
                 'field' => $field,
                 'value' => $value,
@@ -105,7 +105,7 @@ class DirectoryException extends ValidationException
     public static function alreadyExists(string $field, string $value): self
     {
         return new self(
-            message: sprintf("%s already exists: %s", $field, $value),
+            message: sprintf("Directory %s already exists for field %s", $value, $field),
             context: [
                 'field' => $field,
                 'value' => $value,
@@ -121,7 +121,7 @@ class DirectoryException extends ValidationException
 
     public static function notEmpty(string $field, string $value, int $fileCount = 0): self
     {
-        $message = sprintf("%s not empty: %s", $field, $value);
+        $message = sprintf("Directory %s not empty for field %s", $value, $field);
         if ($fileCount > 0) {
             $message .= sprintf(" (%d file/folder)", $fileCount);
         }
@@ -231,7 +231,7 @@ class DirectoryException extends ValidationException
     public static function cannotCreate(string $field, string $value): self
     {
         return new self(
-            message: sprintf("Cannot create %s %s.", $field, $value),
+            message: sprintf("Cannot create directory %s for field %s.", $value, $field),
             code: 403,
             context: [
                 'field' => $field,
