@@ -7,6 +7,42 @@ namespace Vigihdev\Exceptions\Validation;
 class EmailException extends ValidationException
 {
 
+    public static function exist(string $field, string $value): self
+    {
+        return new self(
+            message: sprintf("Email '%s' already exists for field '%s'.", $value, $field),
+            code: 400,
+            field: $field,
+            value: $value,
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            solutions: [
+                "Choose a different email.",
+                "Verify that the email address is correct.",
+            ],
+        );
+    }
+
+    public static function notExist(string $field, string $value): self
+    {
+        return new self(
+            message: sprintf("Email '%s' does not exist for field '%s'.", $value, $field),
+            code: 400,
+            field: $field,
+            value: $value,
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            solutions: [
+                "Check the email address. It may be misspelled or not registered.",
+                "Verify that the email address is correct.",
+            ],
+        );
+    }
+
     public static function emptyEmail(string $field): self
     {
         return new self(

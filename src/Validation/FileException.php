@@ -45,12 +45,12 @@ class FileException extends ValidationException
         );
     }
 
-    public static function invalidTooSmall(int $min, int $actual = 0, string $field = ''): static
+    public static function tooSmall(int $min, string $field, int $actual = 0): static
     {
-        $name = $field !== '' ? "for field '{$field}'" : '';
+        $actualSize = $actual !== 0 ? " (actual size is {$actual} bytes)" : '';
 
         return new self(
-            message: sprintf('File %s is too small. Minimum size is %d bytes', $name, $min),
+            message: sprintf('File %s is too small. Minimum size is %d bytes%s', $field, $min, $actualSize),
             context: [
                 'min' => $min,
                 'actual' => $actual,
@@ -66,12 +66,12 @@ class FileException extends ValidationException
     /**
      * Create exception for file that is too big
      */
-    public static function invalidTooBig(int $max, int $actual = 0, string $field = ''): static
+    public static function tooBig(int $max, string $field, int $actual = 0): static
     {
-        $name = $field !== '' ? "for field '{$field}'" : '';
+        $actualSize = $actual !== 0 ? " (actual size is {$actual} bytes)" : '';
 
         return new self(
-            message: sprintf('File %s is too big. Maximum size is %d bytes', $name, $max),
+            message: sprintf('File %s is too big. Maximum size is %d bytes%s', $field, $max, $actualSize),
             context: [
                 'max' => $max,
                 'actual' => $actual,

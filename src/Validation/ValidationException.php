@@ -6,20 +6,15 @@ namespace Vigihdev\Exceptions\Validation;
 
 use Exception;
 
-/**
- * Base exception untuk semua validation-related errors
- * 
- * @abstract Tidak bisa di-instansiate langsung
- */
 abstract class ValidationException extends Exception implements ValidationExceptionInterface
 {
     /**
-     * Field yang divalidasi
+     * Field is validated with invalid value
      */
     protected string $field;
 
     /**
-     * Value yang invalid
+     * Value that is invalid
      */
     protected mixed $value;
 
