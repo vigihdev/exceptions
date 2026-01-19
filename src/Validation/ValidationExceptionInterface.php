@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Vigihdev\Exceptions\Validation;
 
-interface ValidationExceptionInterface
+interface ValidationExceptionInterface extends \Throwable
 {
     public function getContext(): array;
 
