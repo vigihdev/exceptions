@@ -7,6 +7,22 @@ namespace Vigihdev\Exceptions\Validation;
 class FileException extends ValidationException
 {
 
+    public static function notHaveExtension(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("File %s does not have an extension: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 400,
+            solutions: [
+                'Upload a file with an extension',
+                'Check the file upload settings'
+            ]
+        );
+    }
+
     public static function notEmpty(string $field, string $value): static
     {
         return new self(
