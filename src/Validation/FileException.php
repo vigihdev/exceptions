@@ -55,6 +55,70 @@ class FileException extends ValidationException
         );
     }
 
+    public static function notReadable(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("File %s not readable: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 403,
+            solutions: [
+                'Check the file permissions: chmod +r ' . basename($value),
+                'Check the file ownership'
+            ]
+        );
+    }
+
+    public static function notWritable(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("File %s not writable: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 403,
+            solutions: [
+                'Check the file permissions: chmod +w ' . basename($value),
+                'Check the file ownership'
+            ]
+        );
+    }
+
+    public static function notExecutable(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("File %s not executable: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 403,
+            solutions: [
+                'Check the file permissions: chmod +x ' . basename($value),
+                'Check the file ownership'
+            ]
+        );
+    }
+
+    public static function notFile(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("File %s is not a valid file: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 404,
+            solutions: [
+                'Check the filepath and make sure the file exists',
+                'Create the file if it does not exist'
+            ]
+        );
+    }
+
     public static function invalidMimeType(string $field, string $value, string $mimeType): static
     {
         return new self(
