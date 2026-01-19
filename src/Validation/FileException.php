@@ -7,6 +7,22 @@ namespace Vigihdev\Exceptions\Validation;
 class FileException extends ValidationException
 {
 
+    public static function notEmpty(string $field, string $value): static
+    {
+        return new self(
+            message: sprintf("File %s is empty: %s", $field, $value),
+            context: [
+                'field' => $field,
+                'value' => $value,
+            ],
+            code: 400,
+            solutions: [
+                'Upload a file with content',
+                'Check the file upload settings'
+            ]
+        );
+    }
+
     public static function notExist(string $field, string $value): static
     {
         return new self(
